@@ -31,7 +31,7 @@ export default defineNuxtModule({
     configKey: 'tailwindcss'
   },
   defaults: nuxt => ({
-    configPath: 'tailwind.config.js',
+    configPath: 'tailwind.config',
     cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
     config: defaultTailwindConfig(nuxt.options),
     viewer: true,
@@ -39,7 +39,9 @@ export default defineNuxtModule({
     injectPosition: 0
   }),
   async setup (moduleOptions, nuxt) {
-    const configPath = await resolvePath(moduleOptions.configPath)
+    const configPath = await resolvePath(moduleOptions.configPath, {
+      extensions: ['.js', '.ts']
+    })
     const cssPath = moduleOptions.cssPath && resolveAlias(moduleOptions.cssPath)
     const injectPosition = ~~Math.min(moduleOptions.injectPosition, (nuxt.options.css || []).length + 1)
 
